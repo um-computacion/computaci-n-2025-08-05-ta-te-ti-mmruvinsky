@@ -1,39 +1,86 @@
-Ta-Te-Ti 
+Ta-Te-Ti (CLI + TUI con Textual)
 
-Proyecto en Python que implementa el clásico juego de Ta-Te-Ti (Tres en Línea) en modo consola, siguiendo principios de programación estructurada y modular. Incluye un conjunto de tests automatizados para verificar la correcta funcionalidad de las clases y métodos.
-📂 Estructura del proyecto
+    Implementación de Ta-Te-Ti con motor de juego puro (tateti.py + tablero.py), una interfaz TUI retro con [Textual], y un CLI simple para entornos sin interfaz.
 
-tateti/
-├── src/ → Código fuente del juego
-│ ├── init.py
-│ ├── cli.py → Interfaz por línea de comandos
-│ ├── excepciones.py → Excepciones personalizadas
-│ ├── tablero.py → Lógica del tablero
-│ ├── tateti.py → Lógica principal del juego
-│ └── validadores.py → Funciones de validación
-├── tests/ → Tests unitarios
-│ ├── init.py
-│ ├── test_tablero.py
-│ ├── test_tateti.py
-│ └── test_juego_completo.py
-└── README.md
-🚀 Requisitos
+Requisitos:
 
-    Python 3.10 o superior
+    Python 3.10+
 
-    pip para instalar dependencias
+    (Opcional) virtualenv/venv para aislar dependencias
 
-🔧 Instalación
+Estructura del proyecto:
 
-    Clonar este repositorio y entrar a la carpeta del proyecto.
+    src/
+    __init__.py
+    tateti.py
+    tablero.py
+    tui_tateti_textual.py   
+    cli.py                   
+    tests/  
+    test_juego_completo.py
+    test_tateti.py
+    test_tablero.py
+    __init__.py                 
+    requirements.txt
+    .gitignore
 
-    (Opcional) Crear un entorno virtual para aislar las dependencias.
+Asegurate de que exista src/__init__.py para que src sea un paquete y se pueda ejecutar con -m.
 
-    Instalar las dependencias necesarias como coverage para medir la cobertura de los tests.
 
-▶️ Ejecución del juego
 
-Para jugar desde la consola se ejecuta el archivo cli.py dentro de la carpeta src.
-🧪 Ejecutar los tests
+Instalación:
 
-El proyecto incluye tests unitarios que validan el correcto funcionamiento de las clases Tablero y Tateti, así como el flujo completo del juego. Pueden ejecutarse con unittest.
+1) Clonar:
+
+    git clone <URL-DEL-REPO>
+    cd <carpeta-del-repo>
+
+
+2) (Recomendado) Crear y activar un entorno virtual:
+
+    Linux / macOS:
+        python -m venv .venv
+        source .venv/bin/activate
+        Windows (PowerShell)
+
+    powershell:
+        python -m venv .venv
+        .venv\Scripts\Activate.ps1
+
+
+3) Instalar dependencias:
+
+    pip install -r requirements.txt
+
+
+
+Dependencias clave:
+
+    textual (TUI)
+    pyfiglet (título ASCII retro para el TUI)
+
+
+
+Ejecución:
+
+
+    TUI:
+
+    --> Siempre ejecutá desde la raíz del repo (la carpeta que contiene src/).
+
+    --> python3 -m src.tui_tateti_textual
+
+        Controles:
+
+            Flechas: mover el foco
+            Enter/Espacio: jugar en la celda
+            R: reiniciar
+            Q: salir
+
+
+
+    CLI: 
+
+    --> Siempre ejecutá desde la raíz del repo (la carpeta que contiene src/).
+
+    --> python3 -m src.cli
