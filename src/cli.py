@@ -1,33 +1,42 @@
 from tateti import Tateti
 from excepciones import PosicionInvalida, CasilleroOcupado
-from validadores import es_posicion_valida, casillero_libre
 
 def main():
-
-    print("Bienvenido al juego de Tateti!")
+    print("¡Bienvenido al juego de Tateti!")
     juego = Tateti()
 
     while True:
-
-        print("Tablero actual:")
+        print("\nTablero actual:")
         print(juego.tablero)
-        print(f"Turno de {juego.turno}")
-        fil = (int(input("Ingrese la fila (1-3): ")))
-        col = (int(input("Ingrese la columna (1-3): ")))
-        fil = fil - 1
-        col = col - 1
-        if not es_posicion_valida(fil, col):
-            raise PosicionInvalida("La posición no es válida.")
-        if not casillero_libre(tablero, fil, col):
-            raise CasilleroOcupado("El casillero ya está ocupado.")
-
-
+        print(f"Turno de: {juego.turno}")
+        
         try:
+            fil = int(input("Ingrese la fila (1-3): ")) - 1
+            col = int(input("Ingrese la columna (1-3): ")) - 1
+            
             juego.ocupar_un_casillero(fil, col)
-        except ValueError as e:
-            print(e)
-
-
+            
+            # Verificar si hay ganador
+            ganador = juego.hay_ganador()
+            if ganador:
+                print("\nTablero final:")
+                print(juego.tablero)
+                print(f"¡Felicitaciones! Ganó el jugador {ganador}")
+                break
+            
+            # Verificar empate
+            if juego.tablero_lleno():
+                print("\nTablero final:")
+                print(juego.tablero)
+                print("¡Es un empate!")
+                break
+                
+        except (PosicionInvalida, CasilleroOcupado) as e:
+            print(f"Error: {e}")
+        except ValueError:
+            print("Error: Debe ingresar números válidos.")
+        except Exception as e:
+            print(f"Error inesperado: {e}")
 
 if __name__ == "__main__":
-    main() 
+    main()

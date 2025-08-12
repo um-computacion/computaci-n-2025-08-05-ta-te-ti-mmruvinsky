@@ -1,4 +1,5 @@
 from tablero import Tablero
+from excepciones import PosicionInvalida, CasilleroOcupado
 
 class Tateti:
     def __init__(self):
@@ -6,8 +7,11 @@ class Tateti:
         self.tablero = Tablero()
 
     def ocupar_un_casillero(self, fil, col):
+        # Ponemos la ficha en el tablero
+        self.tablero.poner_ficha(fil, col, self.turno)
+        # Cambiamos el turno
         if self.turno == "X":
-            self.turno = "0"
+            self.turno = "O" 
         else:
             self.turno = "X"
 
@@ -26,6 +30,10 @@ class Tateti:
             return t[0][2]
         return None
     
-    from excepciones import PosicionInvalida, CasilleroOcupado
-
-
+    def tablero_lleno(self):
+        """Verifica si el tablero está lleno (empate)"""
+        for fila in self.tablero.casilleros:
+            for casillero in fila:
+                if casillero == ' ':
+                    return False
+        return True
