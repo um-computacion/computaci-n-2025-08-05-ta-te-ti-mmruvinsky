@@ -1,5 +1,6 @@
-from tablero import Tablero
-from excepciones import PosicionInvalida, CasilleroOcupado
+from .tablero import Tablero
+from .excepciones import PosicionInvalida, CasilleroOcupado
+
 
 class Tateti:
     def __init__(self):

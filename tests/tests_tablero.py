@@ -1,8 +1,8 @@
-# tests/test_simple.py
 import unittest
 from src.tablero import Tablero
 from src.tateti import Tateti
 from src.excepciones import PosicionInvalida, CasilleroOcupado
+
 
 class TestTablero(unittest.TestCase):
     

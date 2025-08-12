@@ -1,5 +1,5 @@
-from tateti import Tateti
-from excepciones import PosicionInvalida, CasilleroOcupado
+from .tateti import Tateti
+from .excepciones import PosicionInvalida, CasilleroOcupado
 
 def main():
     print("¡Bienvenido al juego de Tateti!")

@@ -1,4 +1,5 @@
-from excepciones import PosicionInvalida, CasilleroOcupado
+from .excepciones import PosicionInvalida, CasilleroOcupado
+
 
 class Tablero:
     """Representa el tablero del juego"""

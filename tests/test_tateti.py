@@ -1,7 +1,6 @@
 import unittest
 from src.tablero import Tablero
 from src.tateti import Tateti
-from src.excepciones import PosicionInvalida, CasilleroOcupado
 
 class TestTateti(unittest.TestCase):
     
