@@ -38,3 +38,9 @@ class Tateti:
                 if casillero == ' ':
                     return False
         return True
+    
+    def reiniciar(self):
+        self.turno = "X"
+        for r in range(3):
+            for c in range(3):
+                self.tablero.casilleros[r][c] = ' '
