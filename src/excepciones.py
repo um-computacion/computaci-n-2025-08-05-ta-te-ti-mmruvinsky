@@ -3,3 +3,6 @@ class PosicionInvalida(Exception):
 
 class CasilleroOcupado(Exception):
     pass
+
+class ArchivoPuntajesInexistente(Exception):
+    pass

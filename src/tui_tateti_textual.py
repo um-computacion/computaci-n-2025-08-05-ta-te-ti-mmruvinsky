@@ -23,7 +23,6 @@ from .tablero import Tablero
 from pyfiglet import figlet_format
 from rich.text import Text
 
-
 Coord = Tuple[int, int]  
 
 LINES: list[list[Coord]] = [
@@ -64,6 +63,12 @@ class GameAdapter:
     
     def reset(self) -> None:
         self.game.reiniciar()
+
+    def get_scores(self) -> dict[str, int]:
+        return self.game.get_puntajes()
+
+    def reset_scores(self) -> None:
+        self.game.resetear_puntajes()
 
 
 class Cell(Button):
@@ -183,6 +188,24 @@ class TTTApp(App):
             background: #151515;
         }
 
+        Button.focus-x {
+            border: heavy magenta; /* Rosado */
+        }
+
+        Button.focus-o {
+            border: heavy cyan; /* Celeste */
+        }
+
+        #score {
+            height: 3;
+            content-align: center middle;
+            color: white;
+            border: heavy #333333;
+            background: #101010;
+        }
+
+
+
 
         """
     )
@@ -200,14 +223,30 @@ class TTTApp(App):
         elif self.adapter.is_full():
             self.push_screen(EndScreen("¡Empate!"))
 
+    def _update_focus_style(self) -> None:
+        for r in range(3):
+            for c in range(3):
+                cell = self.query_one(f"#cell-{r}-{c}", Cell)
+                cell.remove_class("-focus-x", "-focus-o")
+
+        focused = self.focused
+        if isinstance(focused, Cell):
+            if (self.turn or self.adapter.current_turn()) == "X":
+                focused.add_class("-focus-x")
+            else:
+                focused.add_class("-focus-o")
+
+
 
     def compose(self) -> ComposeResult:
         ascii_title = figlet_format("TA-TE-TI", font="slant")  # Podés probar "banner", "block", "slant", etc.
         yield Static(Text(ascii_title, style="bold magenta"), id="title", classes="wrap")
         yield Static("(Flechas + Enter)", id="subtitle", classes="wrap")
         yield Static("Turno ---> X", id="status", classes="wrap")
-        yield Grid(id="board", classes="wrap")     
-        yield Static("Atajos: R = reiniciar, Q = salir", classes="wrap")
+        yield Grid(id="board", classes="wrap")
+        yield Static("Marcador  X:0  O:0  E:0", id="score", classes="wrap")
+        yield Static("Atajos: R = reiniciar, Q = salir", id="footer", classes="wrap")
+
 
     def on_mount(self) -> None:
         self.adapter = GameAdapter()
@@ -218,6 +257,8 @@ class TTTApp(App):
                 grid.mount(Cell(r, c))
         self.query_one("#cell-1-1", Cell).focus()
         self._refresh()
+        self._refresh_score()  
+        self._update_focus_style()
 
     def action_restart_game(self) -> None:
         self.adapter.reset()
@@ -227,8 +268,6 @@ class TTTApp(App):
         # foco al centro y refresco
         self.query_one("#cell-1-1", Cell).focus()
         self._refresh()
-
-
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if isinstance(event.button, Cell):
@@ -273,6 +312,13 @@ class TTTApp(App):
             return 
 
         self.query_one(f"#cell-{r}-{c}", Cell).focus()
+        self._update_focus_style()
+
+    def _refresh_score(self) -> None:
+        sc = self.adapter.get_scores()  
+        self.query_one("#score", Static).update(
+            f"Marcador  X:{sc['X']}  O:{sc['O']}  E:{sc['E']}"
+        )
 
 
     def _refresh(self) -> None:
@@ -316,6 +362,8 @@ class TTTApp(App):
         self.win_cells = self.adapter.winning_cells()
 
         self._refresh()
+        self._refresh_score()
+        self._update_focus_style()
         self._maybe_show_end()
 
 if __name__ == "__main__":
