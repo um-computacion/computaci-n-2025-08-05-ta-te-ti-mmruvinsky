@@ -1,6 +1,7 @@
 import unittest
 from src.tablero import Tablero
-from src.tateti import Tateti
+from src.tateti import Tateti 
+from src.excepciones import PosicionInvalida, CasilleroOcupado, ArchivoPuntajesInexistente
 
 class TestTateti(unittest.TestCase):
     
@@ -38,6 +39,12 @@ class TestTateti(unittest.TestCase):
     
     def test_tablero_no_lleno(self):
         self.assertFalse(self.juego.tablero_lleno())
+
+    def test_reiniciar_tablero(self):
+        self.juego.tablero.casilleros[0][0] = 'X'
+        self.juego.reiniciar()
+        self.assertEqual(self.juego.tablero.casilleros, [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']])
+        self.assertEqual(self.juego.turno, 'X')
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
